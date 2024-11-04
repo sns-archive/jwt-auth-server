@@ -7,6 +7,7 @@ services:
       - db-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sns_archive_jwt
     ports:
       - 3307:3306
     stdin_open: true

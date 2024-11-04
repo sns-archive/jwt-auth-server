@@ -46,6 +46,7 @@ func main() {
 	xdb := sqlx.NewDb(db, "mysql")
 	defer db.Close()
 
+	// TODO: idはUUIDを自動発番できるようにする
 	user := User{
 		id:       "123e4567-e89b-12d3-a456-426614174001", // 例としてUUIDを使用
 		name:     "うんち💩",

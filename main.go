@@ -46,14 +46,15 @@ func main() {
 	xdb := sqlx.NewDb(db, "mysql")
 	defer db.Close()
 
-	sql := `INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)`
+	// TODO: idはUUIDを自動発番できるようにする
+	user := User{
+		id:       "123e4567-e89b-12d3-a456-426614174001", // 例としてUUIDを使用
+		name:     "うんち💩",
+		email:    "example + 1@example.com",
+		password: "securepassword",
+	}
 
-	id := "123e4567-e89b-12d3-a456-426614174000" // 例としてUUIDを使用
-	name := "うんち💩"
-	email := "example@example.com"
-	password := "securepassword"
-
-	result, err := xdb.Exec(sql, id, name, email, password)
+	result, err := insertUsers(xdb, user)
 	fmt.Printf("%+v\n", result)
 	if err != nil {
 		slog.Error(err.Error())
@@ -61,5 +62,7 @@ func main() {
 	}
 }
 
-// func insertUsers() {
-// }
+func insertUsers(db *sqlx.DB, user User) (sql.Result, error) {
+	sql := `INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)`
+	return db.Exec(sql, user.id, user.name, user.email, user.password)
+}
